@@ -88,17 +88,18 @@ zh-CN:
           accept: '接受'
           cancel: '取消'
           delete: '刪除'
-          clone: '克隆'
+          clone: '复制'
           add_tag: '添加标签'
           close: '关闭'
           settings: '设置'
           save: '保存'
           submit: '提交'
           name: '名称'
-          size: '尺寸'
+          size: '大小'
+          dimension: '尺寸'
           insert: '插入'
           url: '网址'
-          root: '根'
+          root: '根目录'
 
 pt-BR:
   camaleon_cms:

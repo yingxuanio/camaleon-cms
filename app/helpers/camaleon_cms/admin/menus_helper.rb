@@ -18,11 +18,13 @@ module CamaleonCms::Admin::MenusHelper
       end
       items << {icon: pt.get_option('icon', "copy"), title: pt.the_title, url: "", items: items_i } if items_i.present? #if can? :posts, pt
     end
+    items << {icon: "comments", title: t('camaleon_cms.admin.sidebar.comments'), url: cama_admin_comments_path, datas: "data-intro='#{t("camaleon_cms.admin.intro.comments")}' data-position='right'"} if can? :manage, :comments
+
     admin_menu_add_menu("content", {icon: "database", title: t('camaleon_cms.admin.sidebar.contents'), url: "", items: items, datas: "data-intro='#{t("camaleon_cms.admin.intro.content")}' data-position='right' data-wait='600'"}) if items.present?
     #end
 
-    admin_menu_add_menu("media", {icon: "picture-o", title: t('camaleon_cms.admin.sidebar.media'), url: cama_admin_media_path, datas: "data-intro='#{t("camaleon_cms.admin.intro.media")}' data-position='right'"}) if can? :manage, :media
-    admin_menu_add_menu("comments", {icon: "comments", title: t('camaleon_cms.admin.sidebar.comments'), url: cama_admin_comments_path, datas: "data-intro='#{t("camaleon_cms.admin.intro.comments")}' data-position='right'"}) if can? :manage, :comments
+    # admin_menu_add_menu("media", {icon: "picture-o", title: t('camaleon_cms.admin.sidebar.media'), url: cama_admin_media_path, datas: "data-intro='#{t("camaleon_cms.admin.intro.media")}' data-position='right'"}) if can? :manage, :media
+    # admin_menu_add_menu("comments", {icon: "comments", title: t('camaleon_cms.admin.sidebar.comments'), url: cama_admin_comments_path, datas: "data-intro='#{t("camaleon_cms.admin.intro.comments")}' data-position='right'"}) if can? :manage, :comments
 
     items = []
     items << {icon: "desktop", title: t('camaleon_cms.admin.sidebar.themes'), url: cama_admin_appearances_themes_path, datas: "data-intro='#{t("camaleon_cms.admin.intro.themes")}' data-position='right'"} if can? :manage, :themes

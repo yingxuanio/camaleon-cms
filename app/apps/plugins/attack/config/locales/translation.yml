@@ -113,16 +113,16 @@ it:
 zh-CN:
   plugin:
     attack:
-      title: '攻击'
+      title: '网络攻击防护'
       attack_security: '安全攻击'
       form:
         in: '期间'
         seconds: '秒'
         minutes: '分钟'
-        type_max_requests_time: '最大. %{type} 请求'
+        type_max_requests_time: '最大 %{type} 请求数'
         type_time_requests_seconds: '%{type} 每秒次数'
-        ban_time_minutes: '禁止时间'
-        ban_messages: '禁止消息'
+        ban_time_minutes: '屏蔽'
+        ban_messages: '屏蔽消息'
         request_limit_exceeded: '请求超过限制!'
       messages:
         settings_saved: '设置已保存!'

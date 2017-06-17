@@ -11,7 +11,6 @@ class CamaleonCms::AdminController < CamaleonCms::CamaleonController
   before_action :admin_before_hooks
   after_action :admin_after_hooks
   layout Proc.new { |controller| params[:cama_ajax_request].present? ? "camaleon_cms/admin/_ajax" : 'camaleon_cms/admin' }
-  add_breadcrumb I18n.t("camaleon_cms.admin.sidebar.dashboard", default: 'Dashboard'), :cama_admin_path
 
   # render admin dashboard
   def index
@@ -64,6 +63,7 @@ class CamaleonCms::AdminController < CamaleonCms::CamaleonController
     @_admin_breadcrumb = []
     @_extra_models_for_fields = []
     @cama_i18n_frontend = current_site.get_languages.first
+    add_breadcrumb I18n.t("camaleon_cms.admin.sidebar.dashboard", default: 'Dashboard'), :cama_admin_path
   end
 
   # trigger hooks for admin panel before admin load

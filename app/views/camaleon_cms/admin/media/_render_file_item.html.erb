@@ -25,8 +25,6 @@
         <div class="actions">
             <% if file['format'] == 'image' && File.extname(file['name']).downcase != '.gif' %>
                 <a href="#" class="edit_item btn btn-primary btn-xs" <%= 'data-permit-overwrite="true"' if @show_file_actions %>><i class="fa fa-pencil"></i></a>
-            <% end %>
-            <% if @show_file_actions %>
                 <a href="#" class="del_item btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
             <% end %>
         </div>
