@@ -9,12 +9,12 @@ class CamaleonCms::Admin::PluginsController < CamaleonCms::AdminController
     status = params[:status].to_bool
     if status == true # to inactivate
       plugin = plugin_uninstall(params[:id])
-      flash[:notice] = "Plugin \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_inactivated')}"
+      flash[:notice] = "#{t('camaleon_cms.admin.sidebar.plugins')} \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_inactivated')}"
     end
 
     unless status # to activate
       plugin = plugin_install(params[:id])
-      flash[:notice] = "Plugin \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_activated')}"
+      flash[:notice] = "#{t('camaleon_cms.admin.sidebar.plugins')} \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_activated')}"
     end
     PluginRoutes.reload
     redirect_to action: :index
@@ -23,7 +23,7 @@ class CamaleonCms::Admin::PluginsController < CamaleonCms::AdminController
   # permit to upgrade a plugin for a new version
   def upgrade
     plugin = plugin_upgrade(params[:plugin_id])
-    flash[:notice] = "Plugin \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_upgraded')}"
+    flash[:notice] = "#{t('camaleon_cms.admin.sidebar.plugins')} \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_upgraded')}"
     PluginRoutes.reload
     redirect_to action: :index
   end
@@ -31,9 +31,9 @@ class CamaleonCms::Admin::PluginsController < CamaleonCms::AdminController
   def destroy
     plugin = plugin_destroy(params[:id])
     if plugin.error
-      flash[:notice] = "Plugin \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_removed')}"
+      flash[:notice] = "#{t('camaleon_cms.admin.sidebar.plugins')} \"#{plugin.title}\" #{t('camaleon_cms.admin.message.was_removed')}"
     else
-      flash[:error] = "Plugin \"#{plugin.title}\" #{t('camaleon_cms.admin.message.can_not_be_removed')}"
+      flash[:error] = "#{t('camaleon_cms.admin.sidebar.plugins')} \"#{plugin.title}\" #{t('camaleon_cms.admin.message.can_not_be_removed')}"
     end
     redirect_to action: :index
   end
