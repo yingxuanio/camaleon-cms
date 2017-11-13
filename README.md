@@ -9,12 +9,15 @@
 
 ![](http://camaleon.tuzitio.com/media/132/logo2.png)
 
-# CAMALEON CMS V2
+# PURE CMS
+
+Forked from Camaleon CMS V2, refined by Yingxuan.
+
 [Website](http://camaleon.tuzitio.com/)
 
 [Demonstration](http://camaleon.tuzitio.com/plugins/demo_manage/)
 
-  
+
 # Sponsor
 
 [ButterCMS](https://buttercms.com/?utm_source=github&utm_medium=sponsorship-link&utm_campaign=camaleon) is an API-based CMS and blogging platform built for developers:
@@ -55,14 +58,14 @@
   ```
   rails generate camaleon_cms:install
   ```
-* (Optional) Before continue you can configure your cms settings in (my_app/config/system.json), [here](config/system.json) you can see the full settings.  
+* (Optional) Before continue you can configure your cms settings in (my_app/config/system.json), [here](config/system.json) you can see the full settings.
 * Create database structure
   ```
   rake camaleon_cms:generate_migrations
   # before run migrations you can customize copied migration files
   rake db:migrate
   ```
-  
+
 * Start your server
 
   ```
@@ -145,7 +148,7 @@ If you need support, need some extra functionality or need plugins, please conta
 * Site: http://camaleon.tuzitio.com/
 * Email: owenperedo@gmail.com
 * Skype: owen-2345
-* Stack Overflow: Use "camaleon" as tag to ask questions related to this CMS (don't forget to include cms version + rails version).  
+* Stack Overflow: Use "camaleon" as tag to ask questions related to this CMS (don't forget to include cms version + rails version).
 * Guitter: https://gitter.im/camaleoncms/Lobby
 
 
