@@ -35,7 +35,7 @@ module Plugins::VisibilityPost::VisibilityPostHelper
   def plugin_visibility_extra_columns(args)
     if args[:from_body]
       args[:content] = "<td><i class='fa fa-#{{"private"=>"lock", ""=>"lock", "public"=>"eye", "password"=>"eye-slash"}[args[:post].visibility]}'></i> #{args[:post].visibility}</td>"
-      args[:content] = "<td>#{args[:post].the_created_at if args[:post].published_at.present?}</td>"
+      args[:content] = "<td>#{args[:post].published_at.present? ? args[:post].published_at.strftime('%B %e, %Y %H:%M') : args[:post].the_created_at}</td>"
     else
       args[:content] = "<th>#{t('camaleon_cms.admin.table.visibility')}</th>"
       args[:content] = "<th>#{t('camaleon_cms.admin.table.date_published')}</th>"
@@ -102,7 +102,7 @@ module Plugins::VisibilityPost::VisibilityPostHelper
         <div style='padding-left: 20px;'>#{groups_list(post)}</div>
 
         <label style='display: block;'><input type='radio' name='post[visibility]' claass='radio' value='password' #{"checked=''" if "password" == post.visibility}> #{t('camaleon_cms.admin.table.password_protection')}</label>
-        <div><input type='text' class='form-control' name='post[visibility_value]' value='#{post.visibility_value if "password" == post.visibility}'></div>
+        <div><input type='text' class='form-control password_field_value' name='post[visibility_value]' value='#{post.visibility_value if "password" == post.visibility}'></div>
 
         <p>
           <a class='lnk_hide' href='#'>#{t('camaleon_cms.admin.table.hide')}</a>
@@ -116,7 +116,7 @@ module Plugins::VisibilityPost::VisibilityPostHelper
     current_groups = []
     current_groups = post.visibility_value.split(",") if post.visibility == "private"
     current_site.user_roles.each do |role|
-      res << "<label><input type='checkbox' name='post_private_groups[]' class='' value='#{role.slug}' #{"checked=''" if current_groups.include?(role.slug.to_s) }> #{role.name}</label><br>"
+      res << "<label><input type='checkbox' name='post_private_groups[]' class='visibility_private_group_item' value='#{role.slug}' #{"checked=''" if current_groups.include?(role.slug.to_s) }> #{role.name}</label><br>"
     end
     res.join("")
   end

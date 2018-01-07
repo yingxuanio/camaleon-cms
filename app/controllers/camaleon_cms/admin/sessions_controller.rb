@@ -18,7 +18,7 @@ class CamaleonCms::Admin::SessionsController < CamaleonCms::CamaleonController
 
   def login_post
     data_user = user_permit_data
-    @user = current_site.users.by_username(data_user[:username]).first
+    @user = current_site.users.find_by_username(data_user[:username])
     captcha_validate = captcha_verify_if_under_attack("login")
     r = {user: @user, params: params, password: data_user[:password], captcha_validate: captcha_validate, stop_process: false}; hooks_run("user_before_login", r)
     return if r[:stop_process] # permit to redirect for data completion
@@ -148,7 +148,8 @@ class CamaleonCms::Admin::SessionsController < CamaleonCms::CamaleonController
 
   def before_hook_session
     session[:cama_current_language] = params[:cama_set_language].to_sym if params[:cama_set_language].present?
-    I18n.locale = params[:locale] || session[:cama_current_language] || current_site.get_admin_language
+    session[:cama_current_language] = nil if current_site.get_languages.exclude?(session[:cama_current_language])
+    I18n.locale = params[:locale] || session[:cama_current_language] || current_site.get_languages.first
     hooks_run("session_before_load")
   end
 

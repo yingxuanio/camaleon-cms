@@ -41,7 +41,7 @@ class CamaleonCmsLocalUploader < CamaleonCmsUploader
     res = {
         "name" => File.basename(file_path),
         "key" => parse_key(file_path),
-        "url" => is_dir ? '' : (is_private_uploader? ? url_path.sub("#{@root_folder}/", '') : File.join(@current_site.decorate.the_url(locale: nil, skip_relative_url_root: true), url_path)),
+        "url" => is_dir ? '' : (is_private_uploader? ? url_path.sub("#{@root_folder}/", '') : File.join(@current_site.decorate.the_url(as_path: true, locale: false, skip_relative_url_root: true), url_path)),
         "is_folder" => is_dir,
         "size" => is_dir ? 0 : File.size(file_path).round(2),
         "format" => is_dir ? 'folder' : self.class.get_file_format(file_path),
@@ -88,14 +88,16 @@ class CamaleonCmsLocalUploader < CamaleonCmsUploader
   end
 
   def delete_folder(key)
-    file = File.join(@root_folder, key)
-    FileUtils.rm(file) if File.exist? file
+    folder = File.join(@root_folder, key)
+    FileUtils.rm_rf(folder) if Dir.exist? folder
     reload
   end
 
   def delete_file(key)
     file = File.join(@root_folder, key)
     FileUtils.rm(file) if File.exist? file
+    @instance.hooks_run('after_delete', key)
+    
     reload
   end
 

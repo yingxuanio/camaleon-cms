@@ -36,42 +36,33 @@
   ```
   rails new my_project
   ```
-* Add the gem in your Gemfile
+* Add the gem in your Gemfile (Stable versions 2.4.4.5, 2.4.3.10, 2.3.6, 2.2.1, 2.1.1)
 
   ```
-  gem "camaleon_cms",  '>= 2.4.3.6' # Stable versions 2.4.3.5, 2.4.3.2, 2.3.6, 2.2.1, 2.1.1, 2.1.0
+  gem "camaleon_cms",  '>= 2.4.5'
   # gem "camaleon_cms", github: 'owen2345/camaleon-cms' # current development version
+  # gem 'draper', '~> 3' # only for Rails 5
+  # verify (gem 'sass-rails', '~> 5.0') only for Rails 5
   ```
-* Only Rails 5 support
-  
-  Add in your Gemfile draper for Rails 5
-  ```
-  gem 'draper', '~> 3'
-  ```
-  Be careful with sass-rails, recommended v5 (Camaleon doesn't support for sprockets >= 4 which is included in sass-rails 6)
-  ```
-  gem 'sass-rails', '~> 5.0'
-  ```
-  Update bundle
-  ```
-  bundle update
-  ```
-  
+
 * Install required Gem and dependencies
 
   ```
   bundle install
   ```
-* Install the CMS (before this, you can change defaut configuration in config/system.json)
+* Camaleon CMS Installation
 
   ```
   rails generate camaleon_cms:install
   ```
+* (Optional) Before continue you can configure your cms settings in (my_app/config/system.json), [here](config/system.json) you can see the full settings.  
 * Create database structure
-
   ```
+  rake camaleon_cms:generate_migrations
+  # before run migrations you can customize copied migration files
   rake db:migrate
   ```
+  
 * Start your server
 
   ```
@@ -154,6 +145,9 @@ If you need support, need some extra functionality or need plugins, please conta
 * Site: http://camaleon.tuzitio.com/
 * Email: owenperedo@gmail.com
 * Skype: owen-2345
+* Stack Overflow: Use "camaleon" as tag to ask questions related to this CMS (don't forget to include cms version + rails version).  
+* Guitter: https://gitter.im/camaleoncms/Lobby
+
 
 ## Author
 Owen Peredo Diaz

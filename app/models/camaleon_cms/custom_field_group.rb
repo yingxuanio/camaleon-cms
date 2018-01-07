@@ -52,7 +52,7 @@ class CamaleonCms::CustomFieldGroup < CamaleonCms::CustomField
   # only used by form on admin panel (protected)
   # return array of failed_fields and full_fields [[failed fields], [all fields]]
   def add_fields(items, item_options)
-    self.fields.where.not(id: items.map { |_k, obj| obj['id'] }.uniq).destroy_all
+    self.fields.where.not(id: items.to_h.map { |_k, obj| obj['id'] }.uniq).destroy_all
     cache_fields = []
     order_index = 0
     errors_saved = []
@@ -120,7 +120,6 @@ class CamaleonCms::CustomFieldGroup < CamaleonCms::CustomField
 
   # auto save the default field values
   def auto_save_default_values(field, options)
-    options = options.with_indifferent_access
     class_name = object_class.split("_").first
     if %w(Post Category Plugin Theme).include?(class_name) && objectid && (options[:default_value].present? || options[:default_values].present?)
       if class_name == 'Theme'

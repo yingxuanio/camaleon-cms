@@ -13,7 +13,7 @@ module Plugins::Attack::AttackHelper
   def attack_on_active(plugin)
     current_site.set_meta("attack_config", {get: {sec: 20, max: 10},
                                             post: {sec: 20, max: 5},
-                                            msg: "#{t('plugin.attack.form.request_limit_exceeded')}",
+                                            msg: "#{I18n.t('plugin.attack.form.request_limit_exceeded')}",
                                             ban: 5,
                                             cleared: Time.now
                                           })
@@ -50,6 +50,7 @@ module Plugins::Attack::AttackHelper
 
   private
   def attack_check_request
+    return unless current_site
     config = current_site.get_meta("attack_config")
     q = current_site.attack.where(browser_key: cama_get_session_id, path: attack_request_key)
     return unless config.present?

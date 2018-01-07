@@ -11,7 +11,7 @@ module CamaleonCms
         plugin_dir = Rails.root.join("apps", "plugins", get_plugin_name).to_s
         plugin_dir_path = "apps/plugins/#{get_plugin_name}"
         if behavior == :revoke
-          FileUtils.rm_r(plugin_dir)
+          FileUtils.rm_r(plugin_dir) if Dir.exist?(plugin_dir)
           append_to_file Rails.root.join("Gemfile") do
             "\n\ngem '#{get_plugin_name}', path:  '#{plugin_dir_path}'"
           end
@@ -91,9 +91,11 @@ module CamaleonCms
     end
   end"
           end
-
-          append_to_file Rails.root.join("Gemfile") do
-            "\n\ngem '#{get_plugin_name}', path:  '#{plugin_dir_path}'"
+          
+          if PluginRoutes.isRails4?
+            append_to_file Rails.root.join("Gemfile") do
+              "\n\ngem '#{get_plugin_name}', path:  '#{plugin_dir_path}'"
+            end
           end
 
           # destroy non used files

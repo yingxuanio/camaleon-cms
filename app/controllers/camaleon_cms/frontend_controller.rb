@@ -2,7 +2,7 @@ class CamaleonCms::FrontendController < CamaleonCms::CamaleonController
   before_action :init_frontent
   include CamaleonCms::FrontendConcern
   include CamaleonCms::Frontend::ApplicationHelper
-  layout Proc.new { |controller| args = {layout: (params[:cama_ajax_request].present? ? "cama_ajax" : 'index'), controller: controller}; hooks_run("front_default_layout", args); args[:layout] }
+  layout Proc.new { |controller| args = {layout: (params[:cama_ajax_request].present? ? "cama_ajax" : PluginRoutes.static_system_info['default_layout']), controller: controller}; hooks_run("front_default_layout", args); args[:layout] }
   before_action :before_hooks
   after_action :after_hooks
   # rescue_from ActiveRecord::RecordNotFound, with: :page_not_found
@@ -42,7 +42,7 @@ class CamaleonCms::FrontendController < CamaleonCms::CamaleonController
   # render contents from post type
   def post_type
     begin
-      @post_type = current_site.post_types.find(params[:post_type_id]).decorate
+      @post_type = current_site.post_types.find_by_slug(params[:post_type_slug]).decorate
     rescue
       return page_not_found
     end
@@ -215,6 +215,7 @@ class CamaleonCms::FrontendController < CamaleonCms::CamaleonController
 
     @_site_options = current_site.options
     session[:cama_current_language] = params[:cama_set_language].to_sym if params[:cama_set_language].present?
+    session[:cama_current_language] = nil if current_site.get_languages.exclude?(session[:cama_current_language])
     I18n.locale = params[:locale] || session[:cama_current_language] || current_site.get_languages.first
     return page_not_found unless current_site.get_languages.include?(I18n.locale.to_sym) # verify if this locale is available for this site
 

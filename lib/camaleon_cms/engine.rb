@@ -23,6 +23,9 @@ require 'draper' if PluginRoutes.isRails4?
 
 module CamaleonCms
   class Engine < ::Rails::Engine
+    config.generators do |g|
+      g.test_framework :rspec
+    end
     config.before_initialize do |app|
       app.config.active_record.belongs_to_required_by_default = false if PluginRoutes.isRails5?
       if app.respond_to?(:console)
@@ -58,18 +61,22 @@ module CamaleonCms
 
       # extra configuration for plugins
       app.config.eager_load_paths += %W(#{app.config.root}/app/apps/**/)
-      PluginRoutes.all_plugins.each{ |plugin|
-        app.config.paths["db/migrate"] << File.join(plugin["path"], "migrate") if Dir.exist?(File.join(plugin["path"], "migrate"));
-        app.config.paths["db/migrate"] << File.join(plugin["path"], "db", "migrate") if Dir.exist?(File.join(plugin["path"], "db", "migrate"));
-      }
+      if PluginRoutes.static_system_info['auto_include_migrations']
+        PluginRoutes.all_plugins.each{ |plugin|
+          app.config.paths["db/migrate"] << File.join(plugin["path"], "migrate") if Dir.exist?(File.join(plugin["path"], "migrate"));
+          app.config.paths["db/migrate"] << File.join(plugin["path"], "db", "migrate") if Dir.exist?(File.join(plugin["path"], "db", "migrate"));
+        }
+      end
 
       # Static files
       app.middleware.use ::ActionDispatch::Static, "#{root}/public"
 
       # migrations checking
-      unless app.root.to_s.match root.to_s
-        config.paths["db/migrate"].expanded.each do |expanded_path|
-          app.config.paths["db/migrate"] << expanded_path
+      if PluginRoutes.static_system_info['auto_include_migrations']
+        unless app.root.to_s.match root.to_s
+          config.paths["db/migrate"].expanded.each do |expanded_path|
+            app.config.paths["db/migrate"] << expanded_path
+          end
         end
       end
     end
